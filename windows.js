@@ -6,7 +6,16 @@
   let topZ = 100;
   const TASKBAR_H = 48;
 
-  // ── utils ──────────────────────────────────────────────────────────────
+  // Default positions as viewport fractions — spreads windows across the screen.
+  // Computed against actual viewport size when each window first opens.
+  const POSITIONS = {
+    records:  { x: 0.04, y: 0.07 },
+    about:    { x: 0.56, y: 0.06 },
+    services: { x: 0.18, y: 0.40 },
+    contact:  { x: 0.64, y: 0.38 },
+  };
+
+  // ── utils ────────────────────────────────────────────────────────────
 
   function getWin(id) {
     return document.getElementById('window-' + id);
@@ -20,7 +29,7 @@
     winEl.style.zIndex = ++topZ;
   }
 
-  // ── open / close ───────────────────────────────────────────────────────
+  // ── open / close ─────────────────────────────────────────────────────
 
   function openWindow(id) {
     const winEl = getWin(id);
@@ -33,12 +42,21 @@
       return;
     }
 
-    // Set initial position once from data attributes
+    // Set initial position once, using viewport-relative coordinates
     if (!winEl.dataset.positioned) {
-      const ox = parseInt(winEl.dataset.offsetX, 10) || 60;
-      const oy = parseInt(winEl.dataset.offsetY, 10) || 60;
-      winEl.style.left = ox + 'px';
-      winEl.style.top  = oy + 'px';
+      const vw   = window.innerWidth;
+      const vh   = window.innerHeight;
+      const pos  = POSITIONS[id] || { x: 0.1, y: 0.1 };
+
+      const rawX = vw * pos.x;
+      const rawY = vh * pos.y;
+
+      // Clamp so window doesn't open off-screen
+      const maxX = vw - winEl.offsetWidth  - 10;
+      const maxY = vh - TASKBAR_H - 80;  // leave headroom at bottom
+
+      winEl.style.left = Math.max(10, Math.min(rawX, maxX)) + 'px';
+      winEl.style.top  = Math.max(10, Math.min(rawY, maxY)) + 'px';
       winEl.dataset.positioned = '1';
     }
 
@@ -63,7 +81,7 @@
     }, { once: true });
   }
 
-  // ── drag ───────────────────────────────────────────────────────────────
+  // ── drag ─────────────────────────────────────────────────────────────
 
   function initDrag(winEl) {
     const titlebar = winEl.querySelector('.window-titlebar');
@@ -73,7 +91,6 @@
     let startX, startY, startLeft, startTop;
 
     titlebar.addEventListener('pointerdown', (e) => {
-      // Don't intercept close button clicks
       if (e.target.closest('.window-close')) return;
 
       active = true;
@@ -106,21 +123,18 @@
     titlebar.addEventListener('pointercancel', () => { active = false; });
   }
 
-  // ── init ───────────────────────────────────────────────────────────────
+  // ── init ─────────────────────────────────────────────────────────────
 
   document.addEventListener('DOMContentLoaded', () => {
 
-    // Taskbar buttons → open windows
     document.querySelectorAll('.taskbar-btn[data-open]').forEach(btn => {
       btn.addEventListener('click', () => openWindow(btn.dataset.open));
     });
 
-    // Close buttons → close windows
     document.querySelectorAll('.window-close[data-close]').forEach(btn => {
       btn.addEventListener('click', () => closeWindow(btn.dataset.close));
     });
 
-    // Each window: drag + raise on click
     document.querySelectorAll('.window').forEach(winEl => {
       initDrag(winEl);
       winEl.addEventListener('pointerdown', () => bringToFront(winEl));
@@ -128,7 +142,7 @@
 
   });
 
-  // Public API — other modules can open/close windows programmatically
+  // Public API
   window.AudioWarfareWindows = { openWindow, closeWindow };
 
 })();

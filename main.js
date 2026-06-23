@@ -1,4 +1,4 @@
-// main.js — orchestration: boot → desktop, clock
+// main.js — orchestration: boot → desktop, clock, auto-open Records
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const desktop  = document.getElementById('desktop');
   const skipBtn  = document.getElementById('boot-skip');
 
-  // ── clock ────────────────────────────────────────────────────────────────
+  // ── clock ─────────────────────────────────────────────────────────────
   const clockEl = document.getElementById('taskbar-clock');
   function tickClock() {
     const now = new Date();
@@ -18,18 +18,25 @@ document.addEventListener('DOMContentLoaded', () => {
   tickClock();
   setInterval(tickClock, 1000);
 
-  // ── show desktop ─────────────────────────────────────────────────────────
+  // ── show desktop ──────────────────────────────────────────────────────
   function showDesktop() {
     bootEl.classList.add('boot-fade-out');
 
-    // Wait for fade-out transition, then swap
     bootEl.addEventListener('animationend', () => {
       bootEl.classList.add('is-hidden');
       desktop.classList.add('desktop-fade-in');
+
+      // Auto-open Records 2 seconds after the desktop appears
+      setTimeout(() => {
+        if (window.AudioWarfareWindows) {
+          AudioWarfareWindows.openWindow('records');
+        }
+      }, 2000);
+
     }, { once: true });
   }
 
-  // ── boot decision ────────────────────────────────────────────────────────
+  // ── boot decision ──────────────────────────────────────────────────────
   if (window.AudioWarfareBoot && !window.AudioWarfareBoot.shouldSkip()) {
     AudioWarfareBoot.run({
       bootEl,
@@ -37,9 +44,15 @@ document.addEventListener('DOMContentLoaded', () => {
       onComplete: showDesktop
     });
   } else {
-    // Return visitor or boot script unavailable — go straight to desktop
+    // Return visitor — skip straight to desktop
     bootEl.classList.add('is-hidden');
     desktop.classList.add('desktop-fade-in');
+
+    setTimeout(() => {
+      if (window.AudioWarfareWindows) {
+        AudioWarfareWindows.openWindow('records');
+      }
+    }, 2000);
   }
 
 });
