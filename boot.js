@@ -5,14 +5,9 @@
 (function () {
 
   const LINES = [
-    'AUDIO WARFARE SYSTEMS v1.0',
     '> INITIALISING...',
-    '> SCANNING HARDWARE...',
-    '> LOADING KERNEL MODULES...',
     '> MOUNTING DRIVES...',
-    '> ESTABLISHING SECURE CONNECTION...',
-    '> ACCESSING AUDIO WARFARE STUDIO...',
-    '> READY.'
+    '> WAKE UP LOSER. WE\'RE GOING TO AUDIO WARFARE STUDIOS.'
   ];
 
   const CHAR_DELAY  = 38;   // ms per character
@@ -39,7 +34,7 @@
     });
   }
 
-  // ── main export ──────────────────────────────────────────────────────────
+  // ── main export ────────────────────────────────────────────────────────
 
   window.AudioWarfareBoot = {
 
@@ -92,7 +87,7 @@
         if (skipped) break;
       }
 
-      // Wait a moment on READY. before fading out
+      // Wait a moment on last line before fading out
       if (!skipped) await delay(600);
 
       finish();
