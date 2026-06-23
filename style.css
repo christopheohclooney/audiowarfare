@@ -1,6 +1,6 @@
 /* ============================================================
    AUDIO WARFARE STUDIOS — style.css
-   Modules 1 + 2: static shell, boot sequence styles
+   Modules 1–3
    ============================================================ */
 
 /* --- RESET & BASE ----------------------------------------- */
@@ -21,14 +21,10 @@
   --font-display: 'VT323', monospace;
   --font-body:    'IBM Plex Mono', monospace;
 
-  --border:     1px solid var(--green-dim);
-  --radius:     0px;
-
   --taskbar-h:  48px;
   --titlebar-h: 36px;
 
   --window-min-w: 320px;
-  --window-min-h: 200px;
 }
 
 /* --- GLOBAL ------------------------------------------------ */
@@ -77,12 +73,6 @@ button {
   min-height: 1em;
 }
 
-/* Blinking cursor for the last active line */
-@keyframes cursor-blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-
 .boot-skip {
   margin-top: 2.5rem;
   font-family: var(--font-display);
@@ -99,7 +89,6 @@ button {
   border-color: var(--green);
 }
 
-/* Boot fade-out */
 @keyframes boot-fade-out {
   from { opacity: 1; }
   to   { opacity: 0; }
@@ -118,7 +107,7 @@ button {
   position: fixed;
   inset: 0;
   overflow: hidden;
-  opacity: 0;  /* starts invisible; fade-in class reveals it */
+  opacity: 0;
 }
 
 @keyframes desktop-fade-in {
@@ -152,20 +141,26 @@ button {
   pointer-events: none;
 }
 
-/* --- WINDOWS ---------------------------------------------- */
+/* --- WINDOWS — base --------------------------------------- */
 .window {
   position: absolute;
   min-width: var(--window-min-w);
-  min-height: var(--window-min-h);
-  width: 480px;
+  max-height: calc(100vh - var(--taskbar-h) - 20px);
   background: var(--glass);
   border: 1px solid var(--green);
   display: none;
   flex-direction: column;
-  box-shadow: 0 0 0 1px var(--black), 0 8px 32px rgba(0,0,0,0.6);
+  box-shadow: 0 0 0 1px var(--black), 0 8px 32px rgba(0,0,0,0.7);
   user-select: none;
 }
 
+/* --- WINDOWS — individual widths -------------------------- */
+#window-records  { width: 560px; }
+#window-about    { width: 460px; }
+#window-services { width: 440px; }
+#window-contact  { width: 380px; }
+
+/* --- WINDOWS — open / close states ------------------------ */
 .window.is-open {
   display: flex;
 }
@@ -185,7 +180,7 @@ button {
 }
 
 .window.is-closing {
-  display: flex;  /* keep visible during animation */
+  display: flex;
   animation: window-close 100ms ease-in both;
 }
 
@@ -202,9 +197,7 @@ button {
   flex-shrink: 0;
 }
 
-.window-titlebar:active {
-  cursor: grabbing;
-}
+.window-titlebar:active { cursor: grabbing; }
 
 .window-title {
   font-family: var(--font-display);
@@ -218,7 +211,6 @@ button {
   font-family: var(--font-body);
   font-size: 14px;
   color: var(--green-dim);
-  line-height: 1;
   width: 24px;
   height: 24px;
   display: flex;
@@ -295,8 +287,8 @@ button {
   transition: color 0.15s;
 }
 
-.taskbar-btn:hover        { color: var(--green); }
-.taskbar-btn.is-active    { color: var(--green); }
+.taskbar-btn:hover     { color: var(--green); }
+.taskbar-btn.is-active { color: var(--green); }
 
 .taskbar-icon  { font-size: 14px; line-height: 1; }
 
@@ -332,7 +324,6 @@ button {
   .window.is-closing,
   .boot-screen.boot-fade-out,
   .desktop.desktop-fade-in { animation: none; }
-
   .desktop { opacity: 1; }
 }
 
