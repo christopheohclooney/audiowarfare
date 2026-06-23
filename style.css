@@ -6,7 +6,7 @@
 /* --- CUSTOM FONT ------------------------------------------ */
 @font-face {
   font-family: 'WonderType';
-  src: url('assets/WonderTypeRegular.otf') format('opentype');
+  src: url('assets/WonderType-Regular.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
