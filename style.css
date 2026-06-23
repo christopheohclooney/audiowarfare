@@ -43,7 +43,7 @@ html, body {
   background: var(--black);
   color: var(--white);
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 13px;
   line-height: 1.6;
   overflow: hidden;
 }
@@ -71,7 +71,7 @@ button {
 
 .boot-lines {
   font-family: var(--font-display);
-  font-size: clamp(20px, 2.5vw, 32px);
+  font-size: clamp(15px, 1.6vw, 22px);
   color: var(--green);
   line-height: 2;
   white-space: pre;
@@ -85,9 +85,9 @@ button {
 .boot-skip {
   margin-top: 2.5rem;
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 16px;
   color: var(--green-dim);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
   border: 1px solid var(--green-dim);
   padding: 4px 20px;
   transition: color 0.15s, border-color 0.15s;
@@ -219,15 +219,15 @@ button {
 
 .window-title {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 17px;
   color: var(--green);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.06em;
   line-height: 1;
 }
 
 .window-close {
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 13px;
   color: var(--green-dim);
   width: 24px;
   height: 24px;
@@ -250,7 +250,7 @@ button {
   overflow-y: auto;
   padding: 20px;
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 13px;
   color: var(--white);
   scrollbar-width: thin;
   scrollbar-color: var(--green-dim) transparent;
@@ -300,12 +300,12 @@ button {
 .taskbar-btn:hover     { color: var(--green); }
 .taskbar-btn.is-active { color: var(--green); }
 
-.taskbar-icon  { font-size: 14px; line-height: 1; }
+.taskbar-icon  { font-size: 11px; line-height: 1; }
 
 .taskbar-label {
   font-family: var(--font-display);
-  font-size: 18px;
-  letter-spacing: 0.08em;
+  font-size: 14px;
+  letter-spacing: 0.04em;
   line-height: 1;
 }
 
@@ -323,9 +323,9 @@ button {
 
 .taskbar-clock {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 16px;
   color: var(--green-dim);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
 }
 
 /* --- REDUCED MOTION --------------------------------------- */
