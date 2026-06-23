@@ -1,13 +1,13 @@
 // windows.js — module 3: window management
-// Drag, z-index stacking, open/close animations, taskbar indicators.
+// Drag with momentum, z-index stacking, open/close, taskbar indicators.
 
 (function () {
 
   let topZ = 100;
   const TASKBAR_H = 48;
+  const FRICTION   = 0.88;  // velocity multiplier per 16ms frame — lower = more skid
+  const MIN_SPEED  = 0.08;  // px/ms threshold below which momentum stops
 
-  // Default positions as viewport fractions — spreads windows across the screen.
-  // Computed against actual viewport size when each window first opens.
   const POSITIONS = {
     records:  { x: 0.04, y: 0.07 },
     about:    { x: 0.56, y: 0.06 },
@@ -15,7 +15,7 @@
     contact:  { x: 0.64, y: 0.38 },
   };
 
-  // ── utils ────────────────────────────────────────────────────────────
+  // ── utils ───────────────────────────────────────────────────────────
 
   function getWin(id) {
     return document.getElementById('window-' + id);
@@ -29,6 +29,51 @@
     winEl.style.zIndex = ++topZ;
   }
 
+  function clampPos(winEl, left, top) {
+    const desktop = document.getElementById('desktop');
+    const maxX = desktop.offsetWidth  - winEl.offsetWidth;
+    const maxY = desktop.offsetHeight - winEl.offsetHeight - TASKBAR_H;
+    return {
+      left: Math.max(0, Math.min(left, maxX)),
+      top:  Math.max(0, Math.min(top,  maxY)),
+    };
+  }
+
+  // ── momentum ─────────────────────────────────────────────────────────
+
+  function applyMomentum(winEl, vx, vy) {
+    let left = winEl.offsetLeft;
+    let top  = winEl.offsetTop;
+    let lastTime = performance.now();
+
+    function frame(now) {
+      const dt = Math.min(now - lastTime, 64); // cap delta so big gaps don't teleport
+      lastTime = now;
+
+      const scale = Math.pow(FRICTION, dt / 16);
+      vx *= scale;
+      vy *= scale;
+
+      left += vx * dt;
+      top  += vy * dt;
+
+      const clamped = clampPos(winEl, left, top);
+      left = clamped.left;
+      top  = clamped.top;
+
+      winEl.style.left = left + 'px';
+      winEl.style.top  = top  + 'px';
+
+      if (Math.sqrt(vx * vx + vy * vy) > MIN_SPEED) {
+        winEl._momentumRaf = requestAnimationFrame(frame);
+      } else {
+        winEl._momentumRaf = null;
+      }
+    }
+
+    winEl._momentumRaf = requestAnimationFrame(frame);
+  }
+
   // ── open / close ─────────────────────────────────────────────────────
 
   function openWindow(id) {
@@ -36,27 +81,18 @@
     const btn   = getBtn(id);
     if (!winEl) return;
 
-    // Already open — just raise it
     if (winEl.classList.contains('is-open')) {
       bringToFront(winEl);
       return;
     }
 
-    // Set initial position once, using viewport-relative coordinates
     if (!winEl.dataset.positioned) {
-      const vw   = window.innerWidth;
-      const vh   = window.innerHeight;
-      const pos  = POSITIONS[id] || { x: 0.1, y: 0.1 };
-
-      const rawX = vw * pos.x;
-      const rawY = vh * pos.y;
-
-      // Clamp so window doesn't open off-screen
-      const maxX = vw - winEl.offsetWidth  - 10;
-      const maxY = vh - TASKBAR_H - 80;  // leave headroom at bottom
-
-      winEl.style.left = Math.max(10, Math.min(rawX, maxX)) + 'px';
-      winEl.style.top  = Math.max(10, Math.min(rawY, maxY)) + 'px';
+      const vw  = window.innerWidth;
+      const vh  = window.innerHeight;
+      const pos = POSITIONS[id] || { x: 0.1, y: 0.1 };
+      const clamped = clampPos(winEl, vw * pos.x, vh * pos.y);
+      winEl.style.left = clamped.left + 'px';
+      winEl.style.top  = clamped.top  + 'px';
       winEl.dataset.positioned = '1';
     }
 
@@ -72,8 +108,13 @@
     const btn   = getBtn(id);
     if (!winEl || !winEl.classList.contains('is-open')) return;
 
-    if (btn) btn.classList.remove('is-active');
+    // Cancel any in-flight momentum
+    if (winEl._momentumRaf) {
+      cancelAnimationFrame(winEl._momentumRaf);
+      winEl._momentumRaf = null;
+    }
 
+    if (btn) btn.classList.remove('is-active');
     winEl.classList.add('is-closing');
 
     winEl.addEventListener('animationend', () => {
@@ -87,20 +128,34 @@
     const titlebar = winEl.querySelector('.window-titlebar');
     if (!titlebar) return;
 
-    let active = false;
+    let active    = false;
     let startX, startY, startLeft, startTop;
+
+    // Velocity tracking — sampled from last two pointermove events
+    let prevX, prevY, prevTime;
+    let velX = 0, velY = 0;
 
     titlebar.addEventListener('pointerdown', (e) => {
       if (e.target.closest('.window-close')) return;
 
-      active = true;
-      titlebar.setPointerCapture(e.pointerId);
+      // Cancel any ongoing momentum
+      if (winEl._momentumRaf) {
+        cancelAnimationFrame(winEl._momentumRaf);
+        winEl._momentumRaf = null;
+      }
 
+      active    = true;
+      velX      = 0;
+      velY      = 0;
+      prevX     = e.clientX;
+      prevY     = e.clientY;
+      prevTime  = performance.now();
       startX    = e.clientX;
       startY    = e.clientY;
       startLeft = winEl.offsetLeft;
       startTop  = winEl.offsetTop;
 
+      titlebar.setPointerCapture(e.pointerId);
       bringToFront(winEl);
       e.preventDefault();
     });
@@ -108,19 +163,43 @@
     titlebar.addEventListener('pointermove', (e) => {
       if (!active) return;
 
-      const desktop = document.getElementById('desktop');
-      const maxX = desktop.offsetWidth  - winEl.offsetWidth;
-      const maxY = desktop.offsetHeight - winEl.offsetHeight - TASKBAR_H;
+      const now = performance.now();
+      const dt  = now - prevTime;
 
-      const newLeft = Math.max(0, Math.min(startLeft + (e.clientX - startX), maxX));
-      const newTop  = Math.max(0, Math.min(startTop  + (e.clientY - startY), maxY));
+      if (dt > 0) {
+        velX = (e.clientX - prevX) / dt;
+        vy   = (e.clientY - prevY) / dt;
+        velY = vy;
+      }
 
-      winEl.style.left = newLeft + 'px';
-      winEl.style.top  = newTop  + 'px';
+      prevX    = e.clientX;
+      prevY    = e.clientY;
+      prevTime = now;
+
+      const clamped = clampPos(
+        winEl,
+        startLeft + (e.clientX - startX),
+        startTop  + (e.clientY - startY)
+      );
+
+      winEl.style.left = clamped.left + 'px';
+      winEl.style.top  = clamped.top  + 'px';
     });
 
-    titlebar.addEventListener('pointerup',     () => { active = false; });
-    titlebar.addEventListener('pointercancel', () => { active = false; });
+    titlebar.addEventListener('pointerup', () => {
+      if (!active) return;
+      active = false;
+      // Hand off to momentum if moving fast enough
+      if (Math.sqrt(velX * velX + velY * velY) > MIN_SPEED) {
+        applyMomentum(winEl, velX, velY);
+      }
+    });
+
+    titlebar.addEventListener('pointercancel', () => {
+      active = false;
+      velX = 0;
+      velY = 0;
+    });
   }
 
   // ── init ─────────────────────────────────────────────────────────────
@@ -137,12 +216,17 @@
 
     document.querySelectorAll('.window').forEach(winEl => {
       initDrag(winEl);
-      winEl.addEventListener('pointerdown', () => bringToFront(winEl));
+      winEl.addEventListener('pointerdown', () => {
+        if (winEl._momentumRaf) {
+          cancelAnimationFrame(winEl._momentumRaf);
+          winEl._momentumRaf = null;
+        }
+        bringToFront(winEl);
+      });
     });
 
   });
 
-  // Public API
   window.AudioWarfareWindows = { openWindow, closeWindow };
 
 })();
