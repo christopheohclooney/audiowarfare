@@ -1,6 +1,6 @@
 /* ============================================================
    AUDIO WARFARE STUDIOS — style.css
-   Modules 1–4
+   Modules 1–4 + logo
    ============================================================ */
 
 /* --- RESET & BASE ----------------------------------------- */
@@ -139,6 +139,18 @@ button {
   mix-blend-mode: overlay;
 }
 
+/* --- DESKTOP LOGO ----------------------------------------- */
+.desktop-logo {
+  position: absolute;
+  top: 24px;
+  left: 28px;
+  width: 140px;
+  opacity: 0.88;
+  pointer-events: none;
+  z-index: 10;
+  /* SVG is already mint green — no filter needed */
+}
+
 /* --- WINDOWS — base --------------------------------------- */
 .window {
   position: absolute;
@@ -257,16 +269,8 @@ button {
   backdrop-filter: blur(4px);
 }
 
-.taskbar-left  { flex: 1; display: flex; align-items: center; }
+.taskbar-left  { flex: 1; }
 .taskbar-right { flex: 1; display: flex; justify-content: flex-end; align-items: center; }
-
-.taskbar-logo {
-  font-family: var(--font-display);
-  font-size: 22px;
-  color: var(--green);
-  letter-spacing: 0.1em;
-  opacity: 0.7;
-}
 
 .taskbar-center {
   display: flex;
