@@ -5,8 +5,8 @@
 
   let topZ = 100;
   const TASKBAR_H = 48;
-  const FRICTION   = 0.88;  // velocity multiplier per 16ms frame — lower = more skid
-  const MIN_SPEED  = 0.08;  // px/ms threshold below which momentum stops
+  const FRICTION  = 0.88;  // velocity multiplier per 16ms frame — lower = more skid
+  const MIN_SPEED = 0.08;  // px/ms threshold below which momentum stops
 
   const POSITIONS = {
     records:  { x: 0.04, y: 0.07 },
@@ -15,7 +15,7 @@
     contact:  { x: 0.64, y: 0.38 },
   };
 
-  // ── utils ───────────────────────────────────────────────────────────
+  // ── utils ─────────────────────────────────────────────────────────
 
   function getWin(id) {
     return document.getElementById('window-' + id);
@@ -39,17 +39,16 @@
     };
   }
 
-  // ── momentum ─────────────────────────────────────────────────────────
+  // ── momentum ────────────────────────────────────────────────────────
 
   function applyMomentum(winEl, vx, vy) {
-    let left = winEl.offsetLeft;
-    let top  = winEl.offsetTop;
+    let left     = winEl.offsetLeft;
+    let top      = winEl.offsetTop;
     let lastTime = performance.now();
 
     function frame(now) {
-      const dt = Math.min(now - lastTime, 64); // cap delta so big gaps don't teleport
-      lastTime = now;
-
+      const dt    = Math.min(now - lastTime, 64);
+      lastTime    = now;
       const scale = Math.pow(FRICTION, dt / 16);
       vx *= scale;
       vy *= scale;
@@ -74,7 +73,7 @@
     winEl._momentumRaf = requestAnimationFrame(frame);
   }
 
-  // ── open / close ─────────────────────────────────────────────────────
+  // ── open / close ────────────────────────────────────────────────────
 
   function openWindow(id) {
     const winEl = getWin(id);
@@ -87,9 +86,9 @@
     }
 
     if (!winEl.dataset.positioned) {
-      const vw  = window.innerWidth;
-      const vh  = window.innerHeight;
-      const pos = POSITIONS[id] || { x: 0.1, y: 0.1 };
+      const vw      = window.innerWidth;
+      const vh      = window.innerHeight;
+      const pos     = POSITIONS[id] || { x: 0.1, y: 0.1 };
       const clamped = clampPos(winEl, vw * pos.x, vh * pos.y);
       winEl.style.left = clamped.left + 'px';
       winEl.style.top  = clamped.top  + 'px';
@@ -99,7 +98,6 @@
     winEl.classList.remove('is-closing');
     winEl.classList.add('is-open');
     bringToFront(winEl);
-
     if (btn) btn.classList.add('is-active');
   }
 
@@ -108,7 +106,6 @@
     const btn   = getBtn(id);
     if (!winEl || !winEl.classList.contains('is-open')) return;
 
-    // Cancel any in-flight momentum
     if (winEl._momentumRaf) {
       cancelAnimationFrame(winEl._momentumRaf);
       winEl._momentumRaf = null;
@@ -122,23 +119,20 @@
     }, { once: true });
   }
 
-  // ── drag ─────────────────────────────────────────────────────────────
+  // ── drag ────────────────────────────────────────────────────────────
 
   function initDrag(winEl) {
     const titlebar = winEl.querySelector('.window-titlebar');
     if (!titlebar) return;
 
-    let active    = false;
+    let active = false;
     let startX, startY, startLeft, startTop;
-
-    // Velocity tracking — sampled from last two pointermove events
     let prevX, prevY, prevTime;
     let velX = 0, velY = 0;
 
     titlebar.addEventListener('pointerdown', (e) => {
       if (e.target.closest('.window-close')) return;
 
-      // Cancel any ongoing momentum
       if (winEl._momentumRaf) {
         cancelAnimationFrame(winEl._momentumRaf);
         winEl._momentumRaf = null;
@@ -168,8 +162,7 @@
 
       if (dt > 0) {
         velX = (e.clientX - prevX) / dt;
-        vy   = (e.clientY - prevY) / dt;
-        velY = vy;
+        velY = (e.clientY - prevY) / dt;
       }
 
       prevX    = e.clientX;
@@ -181,7 +174,6 @@
         startLeft + (e.clientX - startX),
         startTop  + (e.clientY - startY)
       );
-
       winEl.style.left = clamped.left + 'px';
       winEl.style.top  = clamped.top  + 'px';
     });
@@ -189,7 +181,6 @@
     titlebar.addEventListener('pointerup', () => {
       if (!active) return;
       active = false;
-      // Hand off to momentum if moving fast enough
       if (Math.sqrt(velX * velX + velY * velY) > MIN_SPEED) {
         applyMomentum(winEl, velX, velY);
       }
@@ -197,12 +188,12 @@
 
     titlebar.addEventListener('pointercancel', () => {
       active = false;
-      velX = 0;
-      velY = 0;
+      velX   = 0;
+      velY   = 0;
     });
   }
 
-  // ── init ─────────────────────────────────────────────────────────────
+  // ── init ───────────────────────────────────────────────────────────
 
   document.addEventListener('DOMContentLoaded', () => {
 
