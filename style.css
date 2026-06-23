@@ -123,16 +123,13 @@ button {
 .desktop-bg {
   position: absolute;
   inset: 0;
-  background-color: #0d1a10;  /* fallback while image loads */
-  background-image: url('assets/studio-bg.jpg');
+  background-color: #0d1a10;
+  background-image: url('assets/Timeline 1_01_00_14_23.jpg');
   background-size: cover;
   background-position: center;
-  /* Image already has green duotone treatment.
-     We just pull brightness down slightly so windows sit on top cleanly. */
   filter: brightness(0.72);
 }
 
-/* CCTV grain overlay — sits above the photo */
 .desktop-grain {
   position: absolute;
   inset: 0;
