@@ -1,25 +1,45 @@
-// main.js — orchestration
-// Temporary: show desktop directly so module 1 shell is visible without boot sequence
+// main.js — orchestration: boot → desktop, clock
 
 document.addEventListener('DOMContentLoaded', () => {
-  const boot    = document.getElementById('boot-screen');
-  const desktop = document.getElementById('desktop');
 
-  // Skip boot for now — show desktop immediately
-  if (boot)    boot.classList.add('is-hidden');
-  if (desktop) desktop.classList.remove('is-hidden');
+  const bootEl   = document.getElementById('boot-screen');
+  const desktop  = document.getElementById('desktop');
+  const skipBtn  = document.getElementById('boot-skip');
 
-  // Clock
-  const clock = document.getElementById('taskbar-clock');
-  if (clock) {
-    const tick = () => {
-      const now = new Date();
-      const h = String(now.getHours()).padStart(2, '0');
-      const m = String(now.getMinutes()).padStart(2, '0');
-      const s = String(now.getSeconds()).padStart(2, '0');
-      clock.textContent = `${h}:${m}:${s}`;
-    };
-    tick();
-    setInterval(tick, 1000);
+  // ── clock ────────────────────────────────────────────────────────────────
+  const clockEl = document.getElementById('taskbar-clock');
+  function tickClock() {
+    const now = new Date();
+    const h   = String(now.getHours()).padStart(2, '0');
+    const m   = String(now.getMinutes()).padStart(2, '0');
+    const s   = String(now.getSeconds()).padStart(2, '0');
+    clockEl.textContent = `${h}:${m}:${s}`;
   }
+  tickClock();
+  setInterval(tickClock, 1000);
+
+  // ── show desktop ─────────────────────────────────────────────────────────
+  function showDesktop() {
+    bootEl.classList.add('boot-fade-out');
+
+    // Wait for fade-out transition, then swap
+    bootEl.addEventListener('animationend', () => {
+      bootEl.classList.add('is-hidden');
+      desktop.classList.add('desktop-fade-in');
+    }, { once: true });
+  }
+
+  // ── boot decision ────────────────────────────────────────────────────────
+  if (window.AudioWarfareBoot && !window.AudioWarfareBoot.shouldSkip()) {
+    AudioWarfareBoot.run({
+      bootEl,
+      skipBtn,
+      onComplete: showDesktop
+    });
+  } else {
+    // Return visitor or boot script unavailable — go straight to desktop
+    bootEl.classList.add('is-hidden');
+    desktop.classList.add('desktop-fade-in');
+  }
+
 });

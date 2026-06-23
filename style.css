@@ -1,6 +1,6 @@
 /* ============================================================
    AUDIO WARFARE STUDIOS — style.css
-   Module 1: static shell, variables, layout, window chrome
+   Modules 1 + 2: static shell, boot sequence styles
    ============================================================ */
 
 /* --- RESET & BASE ----------------------------------------- */
@@ -68,18 +68,29 @@ button {
   font-family: var(--font-display);
   font-size: clamp(18px, 2vw, 26px);
   color: var(--green);
-  line-height: 1.8;
+  line-height: 2;
   white-space: pre;
 }
 
+.boot-line {
+  display: block;
+  min-height: 1em;
+}
+
+/* Blinking cursor for the last active line */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
 .boot-skip {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 20px;
   color: var(--green-dim);
   letter-spacing: 0.1em;
-  border: var(--border);
-  padding: 4px 16px;
+  border: 1px solid var(--green-dim);
+  padding: 4px 20px;
   transition: color 0.15s, border-color 0.15s;
 }
 
@@ -88,7 +99,16 @@ button {
   border-color: var(--green);
 }
 
-/* Boot screen hidden state (set by JS after sequence) */
+/* Boot fade-out */
+@keyframes boot-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.boot-screen.boot-fade-out {
+  animation: boot-fade-out 400ms ease-out forwards;
+}
+
 .boot-screen.is-hidden {
   display: none;
 }
@@ -98,30 +118,35 @@ button {
   position: fixed;
   inset: 0;
   overflow: hidden;
+  opacity: 0;  /* starts invisible; fade-in class reveals it */
 }
 
-/* Desktop starts hidden — JS removes this after boot */
-.desktop.is-hidden {
-  display: none;
+@keyframes desktop-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.desktop.desktop-fade-in {
+  animation: desktop-fade-in 500ms ease-out forwards;
 }
 
 /* --- DESKTOP BACKGROUND ----------------------------------- */
 .desktop-bg {
   position: absolute;
   inset: 0;
-  background-color: var(--black);
-  /* studio-bg.jpg applied here when asset supplied:
-     background-image: url('assets/studio-bg.jpg');
-     background-size: cover;
-     background-position: center;
+  background-color: #111a14;
+  /*
+    When studio-bg.jpg is supplied:
+    background-image: url('assets/studio-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(100%) sepia(40%) hue-rotate(90deg) brightness(0.45);
   */
-  filter: grayscale(100%) sepia(40%) hue-rotate(90deg) brightness(0.55);
 }
 
 .desktop-grain {
   position: absolute;
   inset: 0;
-  /* SVG noise grain overlay — subtle CCTV texture */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
   opacity: 0.35;
   pointer-events: none;
@@ -135,7 +160,7 @@ button {
   width: 480px;
   background: var(--glass);
   border: 1px solid var(--green);
-  display: none;       /* hidden until .is-open */
+  display: none;
   flex-direction: column;
   box-shadow: 0 0 0 1px var(--black), 0 8px 32px rgba(0,0,0,0.6);
   user-select: none;
@@ -145,7 +170,6 @@ button {
   display: flex;
 }
 
-/* Open animation — subtle scale-in */
 @keyframes window-open {
   from { opacity: 0; transform: scale(0.95); }
   to   { opacity: 1; transform: scale(1); }
@@ -155,13 +179,13 @@ button {
   animation: window-open 150ms ease-out both;
 }
 
-/* Close animation applied by JS */
 @keyframes window-close {
   from { opacity: 1; transform: scale(1); }
   to   { opacity: 0; transform: scale(0.97); }
 }
 
 .window.is-closing {
+  display: flex;  /* keep visible during animation */
   animation: window-close 100ms ease-in both;
 }
 
@@ -218,22 +242,13 @@ button {
   font-family: var(--font-body);
   font-size: 14px;
   color: var(--white);
-  /* Custom scrollbar */
   scrollbar-width: thin;
   scrollbar-color: var(--green-dim) transparent;
 }
 
-.window-body::-webkit-scrollbar {
-  width: 4px;
-}
-
-.window-body::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.window-body::-webkit-scrollbar-thumb {
-  background: var(--green-dim);
-}
+.window-body::-webkit-scrollbar       { width: 4px; }
+.window-body::-webkit-scrollbar-track  { background: transparent; }
+.window-body::-webkit-scrollbar-thumb  { background: var(--green-dim); }
 
 /* --- TASKBAR ---------------------------------------------- */
 .taskbar {
@@ -252,11 +267,8 @@ button {
   backdrop-filter: blur(4px);
 }
 
-.taskbar-left {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
+.taskbar-left  { flex: 1; display: flex; align-items: center; }
+.taskbar-right { flex: 1; display: flex; justify-content: flex-end; align-items: center; }
 
 .taskbar-logo {
   font-family: var(--font-display);
@@ -283,18 +295,10 @@ button {
   transition: color 0.15s;
 }
 
-.taskbar-btn:hover {
-  color: var(--green);
-}
+.taskbar-btn:hover        { color: var(--green); }
+.taskbar-btn.is-active    { color: var(--green); }
 
-.taskbar-btn.is-active {
-  color: var(--green);
-}
-
-.taskbar-icon {
-  font-size: 14px;
-  line-height: 1;
-}
+.taskbar-icon  { font-size: 14px; line-height: 1; }
 
 .taskbar-label {
   font-family: var(--font-display);
@@ -303,7 +307,6 @@ button {
   line-height: 1;
 }
 
-/* Active indicator dot beneath label */
 .taskbar-indicator {
   display: block;
   width: 4px;
@@ -314,16 +317,7 @@ button {
   transition: opacity 0.15s;
 }
 
-.taskbar-btn.is-active .taskbar-indicator {
-  opacity: 1;
-}
-
-.taskbar-right {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
+.taskbar-btn.is-active .taskbar-indicator { opacity: 1; }
 
 .taskbar-clock {
   font-family: var(--font-display);
@@ -334,19 +328,15 @@ button {
 
 /* --- REDUCED MOTION --------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .window.is-open, .window.is-closing {
-    animation: none;
-  }
+  .window.is-open,
+  .window.is-closing,
+  .boot-screen.boot-fade-out,
+  .desktop.desktop-fade-in { animation: none; }
+
+  .desktop { opacity: 1; }
 }
 
 /* --- MOBILE (module 7) ------------------------------------ */
 @media (max-width: 767px) {
-  body {
-    overflow: auto;
-  }
-
-  .desktop,
-  .boot-screen {
-    /* mobile layout handled in module 7 */
-  }
+  body { overflow: auto; }
 }
