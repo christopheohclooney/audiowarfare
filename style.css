@@ -2,13 +2,22 @@
    AUDIO WARFARE STUDIOS — style.css
    ============================================================ */
 
-/* --- CUSTOM FONT ------------------------------------------ */
-@font-face {
-  font-family: 'WonderType';
-  src: url('assets/WonderType-Regular.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+/* --- CUSTOM PROPERTIES ------------------------------------ */
+:root {
+  --black:      #0a0a0a;
+  --green:      #6ee89e;
+  --green-dim:  #3a7a56;
+  --white:      #e8e8e8;
+  --glass:      rgba(10, 10, 10, 0.88);
+
+  /* Bitcount Prop Single — display: titles, dock, boot, clock  */
+  /* DotGothic16 — body: window copy, form fields              */
+  --font-display: 'Bitcount Prop Single', monospace;
+  --font-body:    'DotGothic16', monospace;
+
+  --dock-h:       72px;
+  --titlebar-h:   36px;
+  --window-min-w: 320px;
 }
 
 /* --- RESET & BASE ----------------------------------------- */
@@ -18,30 +27,13 @@
   padding: 0;
 }
 
-/* --- CUSTOM PROPERTIES ------------------------------------ */
-:root {
-  --black:      #0a0a0a;
-  --green:      #6ee89e;
-  --green-dim:  #3a7a56;
-  --white:      #e8e8e8;
-  --glass:      rgba(10, 10, 10, 0.88);
-
-  --font-display: 'WonderType', 'VT323', monospace;
-  --font-body:    'WonderType', 'IBM Plex Mono', monospace;
-
-  --dock-h:     72px;   /* used to clamp window drag area */
-  --titlebar-h: 36px;
-  --window-min-w: 320px;
-}
-
-/* --- GLOBAL ------------------------------------------------ */
 html, body {
   width: 100%;
   height: 100%;
   background: var(--black);
   color: var(--white);
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.6;
   overflow: hidden;
 }
@@ -173,7 +165,7 @@ button {
 #window-services { width: 440px; }
 #window-contact  { width: 380px; }
 
-.window.is-open  { display: flex; }
+.window.is-open { display: flex; }
 
 @keyframes window-open {
   from { opacity: 0; transform: scale(0.95); }
@@ -240,7 +232,8 @@ button {
   flex: 1;
   overflow-y: auto;
   padding: 20px;
-  font-size: 13px;
+  font-family: var(--font-body);
+  font-size: 16px;
   color: var(--white);
   scrollbar-width: thin;
   scrollbar-color: var(--green-dim) transparent;
@@ -268,7 +261,6 @@ button {
   border-radius: 8px;
   backdrop-filter: blur(14px);
 
-  /* floating shadow — dark drop + faint green ambient glow */
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.7),
     0 2px  8px rgba(0, 0, 0, 0.5),
@@ -293,11 +285,10 @@ button {
   background: rgba(110, 232, 158, 0.06);
 }
 
-.taskbar-btn.is-active {
-  color: var(--green);
-}
+.taskbar-btn.is-active { color: var(--green); }
 
 .taskbar-icon {
+  font-family: var(--font-display);
   font-size: 22px;
   line-height: 1;
 }
@@ -309,7 +300,6 @@ button {
   line-height: 1;
 }
 
-/* active dot beneath label */
 .taskbar-indicator {
   position: absolute;
   bottom: -4px;
