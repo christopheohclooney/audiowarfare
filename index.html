@@ -30,74 +30,71 @@
 
     <!-- WINDOWS -->
 
-    <div id="window-records" class="window" role="dialog" aria-label="Records" data-window="records" data-offset-x="60" data-offset-y="60">
+    <div id="window-records" class="window" role="dialog" aria-label="Records" data-window="records">
       <div class="window-titlebar">
         <span class="window-title">Records</span>
         <button class="window-close" data-close="records" aria-label="Close Records">✕</button>
       </div>
-      <div class="window-body">
-        <!-- content: module 5 -->
-      </div>
+      <div class="window-body"></div>
     </div>
 
-    <div id="window-about" class="window" role="dialog" aria-label="About" data-window="about" data-offset-x="90" data-offset-y="90">
+    <div id="window-about" class="window" role="dialog" aria-label="About" data-window="about">
       <div class="window-titlebar">
         <span class="window-title">About</span>
         <button class="window-close" data-close="about" aria-label="Close About">✕</button>
       </div>
-      <div class="window-body">
-        <!-- content: module 5 -->
-      </div>
+      <div class="window-body"></div>
     </div>
 
-    <div id="window-services" class="window" role="dialog" aria-label="Services" data-window="services" data-offset-x="120" data-offset-y="120">
+    <div id="window-services" class="window" role="dialog" aria-label="Services" data-window="services">
       <div class="window-titlebar">
         <span class="window-title">Services</span>
         <button class="window-close" data-close="services" aria-label="Close Services">✕</button>
       </div>
-      <div class="window-body">
-        <!-- content: module 5 -->
-      </div>
+      <div class="window-body"></div>
     </div>
 
-    <div id="window-contact" class="window" role="dialog" aria-label="Contact" data-window="contact" data-offset-x="150" data-offset-y="150">
+    <div id="window-contact" class="window" role="dialog" aria-label="Contact" data-window="contact">
       <div class="window-titlebar">
         <span class="window-title">Contact</span>
         <button class="window-close" data-close="contact" aria-label="Close Contact">✕</button>
       </div>
-      <div class="window-body">
-        <!-- content: module 5 -->
-      </div>
+      <div class="window-body"></div>
     </div>
 
-    <!-- TASKBAR -->
-    <nav class="taskbar" role="navigation" aria-label="Taskbar">
-      <div class="taskbar-left"></div>
-      <div class="taskbar-center">
-        <button class="taskbar-btn" data-open="records" aria-label="Open Records">
-          <span class="taskbar-icon" aria-hidden="true">◈</span>
-          <span class="taskbar-label">Records</span>
-          <span class="taskbar-indicator" aria-hidden="true"></span>
-        </button>
-        <button class="taskbar-btn" data-open="about" aria-label="Open About">
-          <span class="taskbar-icon" aria-hidden="true">▸</span>
-          <span class="taskbar-label">About</span>
-          <span class="taskbar-indicator" aria-hidden="true"></span>
-        </button>
-        <button class="taskbar-btn" data-open="services" aria-label="Open Services">
-          <span class="taskbar-icon" aria-hidden="true">⌖</span>
-          <span class="taskbar-label">Services</span>
-          <span class="taskbar-indicator" aria-hidden="true"></span>
-        </button>
-        <button class="taskbar-btn" data-open="contact" aria-label="Open Contact">
-          <span class="taskbar-icon" aria-hidden="true">◎</span>
-          <span class="taskbar-label">Contact</span>
-          <span class="taskbar-indicator" aria-hidden="true"></span>
-        </button>
-      </div>
-      <div class="taskbar-right">
+    <!-- DOCK -->
+    <nav class="taskbar" role="navigation" aria-label="Dock">
+
+      <button class="taskbar-btn" data-open="records" aria-label="Open Records">
+        <span class="taskbar-icon" aria-hidden="true">◈</span>
+        <span class="taskbar-label">Records</span>
+        <span class="taskbar-indicator" aria-hidden="true"></span>
+      </button>
+
+      <button class="taskbar-btn" data-open="about" aria-label="Open About">
+        <span class="taskbar-icon" aria-hidden="true">▸</span>
+        <span class="taskbar-label">About</span>
+        <span class="taskbar-indicator" aria-hidden="true"></span>
+      </button>
+
+      <button class="taskbar-btn" data-open="services" aria-label="Open Services">
+        <span class="taskbar-icon" aria-hidden="true">⌖</span>
+        <span class="taskbar-label">Services</span>
+        <span class="taskbar-indicator" aria-hidden="true"></span>
+      </button>
+
+      <button class="taskbar-btn" data-open="contact" aria-label="Open Contact">
+        <span class="taskbar-icon" aria-hidden="true">◎</span>
+        <span class="taskbar-label">Contact</span>
+        <span class="taskbar-indicator" aria-hidden="true"></span>
+      </button>
+
+      <div class="taskbar-divider" aria-hidden="true"></div>
+
+      <div class="taskbar-clock-wrap">
         <span id="taskbar-clock" class="taskbar-clock" aria-live="polite"></span>
       </div>
+
     </nav>
 
   </div><!-- /desktop -->
