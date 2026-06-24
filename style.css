@@ -385,6 +385,22 @@ button {
   transition: opacity 0.15s;
 }
 
+.record-card-img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+}
+
+.player-vinyl-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
 .record-card:hover .record-card-vinyl,
 .record-card.is-active .record-card-vinyl { opacity: 1; }
 

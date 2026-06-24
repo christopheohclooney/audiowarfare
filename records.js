@@ -9,6 +9,7 @@
       release: 'Lies They Hide Behind',
       tag:     'Full band recording',
       spotify: 'https://open.spotify.com/embed/album/1BBROSjNjk45FtrWlJQfbZ?theme=0',
+      image:   'assets/Splitknuckle - LTHB.jpg',
     },
   ];
 
@@ -25,12 +26,19 @@
   }
 
   // ── build card HTML ──────────────────────────────────────────────────────
+  function thumbHTML(rec, size) {
+    if (rec.image) {
+      return `<img src="${rec.image}" class="record-card-img" width="${size}" height="${size}" alt="${rec.release} artwork">`;
+    }
+    return vinylSVG(size);
+  }
+
   function buildCard(rec) {
     const card = document.createElement('button');
     card.className   = 'record-card';
     card.dataset.id  = rec.id;
     card.innerHTML   = `
-      <div class="record-card-vinyl">${vinylSVG(72)}</div>
+      <div class="record-card-vinyl">${thumbHTML(rec, 72)}</div>
       <span class="record-card-band">${rec.band}</span>
       <span class="record-card-release">${rec.release}</span>
       <span class="record-card-tag">${rec.tag}</span>
@@ -73,6 +81,9 @@
       loading="lazy">
     </iframe>`;
 
+    vinylEl.innerHTML = rec.image
+      ? `<img src="${rec.image}" class="player-vinyl-img" alt="${rec.release} artwork">`
+      : vinylSVG(80);
     vinylEl.classList.add('is-spinning');
     playerEl.classList.add('is-active');
   }
