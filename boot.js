@@ -7,7 +7,7 @@
   const LINES = [
     '> INITIALISING...',
     '> MOUNTING DRIVES...',
-    '> WAKE UP LOSER. WE\'RE GOING TO AUDIO WARFARE STUDIOS.'
+    '> WAKE UP LOSER. WE\'RE GOING TO AUDIO WARFARE STUDIO.'
   ];
 
   const CHAR_DELAY  = 38;   // ms per character
