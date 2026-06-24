@@ -11,6 +11,30 @@
       spotify: 'https://open.spotify.com/embed/album/1BBROSjNjk45FtrWlJQfbZ?theme=0',
       image:   'assets/Splitknuckle - LTHB.jpg',
     },
+    {
+      id:      'lifeofone-demo1',
+      band:    'Life Of One',
+      release: 'Demo 1',
+      tag:     'Full band recording',
+      spotify: 'https://open.spotify.com/embed/album/6GPHk42674tvOtplOCR0xd?theme=0',
+      image:   'assets/Life Of One - Demo 1.jpg',
+    },
+    {
+      id:      'lifeofone-demo2',
+      band:    'Life Of One',
+      release: 'Demo 2',
+      tag:     'Full band recording',
+      spotify: 'https://open.spotify.com/embed/album/0oPDR2jVKHm20epfjaO3Ud?theme=0',
+      image:   'assets/Life Of One - Demo 2.jpg',
+    },
+    {
+      id:      'bigsmoke-nltm',
+      band:    'Big Smoke',
+      release: 'Nothing Left To Mourn',
+      tag:     'Full band recording',
+      spotify: 'https://open.spotify.com/embed/album/4xmeSlfYT1fnI4ANANGQMx?theme=0',
+      image:   'assets/Big Smoke - Nothing Left To Mourn.jpg',
+    },
   ];
 
   // ── vinyl SVG ────────────────────────────────────────────────────────────
