@@ -315,21 +315,12 @@ button {
 
 .taskbar-btn.is-active .taskbar-indicator { opacity: 1; }
 
-/* --- DOCK DIVIDER ----------------------------------------- */
-.taskbar-divider {
-  width: 1px;
-  height: 36px;
-  background: var(--green-dim);
-  opacity: 0.4;
-  margin: 0 8px;
-  flex-shrink: 0;
-}
-
-/* --- DOCK CLOCK ------------------------------------------- */
-.taskbar-clock-wrap {
-  display: flex;
-  align-items: center;
-  padding: 0 8px;
+/* --- DESKTOP CLOCK (bottom-right, outside dock) ----------- */
+.desktop-clock-wrap {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 500;
 }
 
 .taskbar-clock {
