@@ -64,7 +64,7 @@ button {
   font-size: clamp(15px, 1.6vw, 22px);
   color: var(--green);
   line-height: 2;
-  white-space: pre;
+  white-space: pre-wrap;
 }
 
 .boot-line {
@@ -858,5 +858,17 @@ body.no-canvas .desktop-bg {
   /* Contact: full width inputs */
   .contact-field input,
   .contact-field textarea { font-size: 16px; } /* prevent iOS zoom */
+
+  /* Scroll fade-in */
+  .window {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .window.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 

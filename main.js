@@ -43,6 +43,26 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── mobile: open all windows after desktop appears ───────────────────
   const isMobile = window.innerWidth < 768;
 
+  if (isMobile) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    // First window fades in immediately, rest on scroll
+    document.querySelectorAll('.window').forEach((win, i) => {
+      if (i === 0) {
+        setTimeout(() => win.classList.add('in-view'), 2200);
+      } else {
+        observer.observe(win);
+      }
+    });
+  }
+
   // ── contact form — Netlify AJAX submit ────────────────────────────────
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
