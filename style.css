@@ -815,7 +815,7 @@ body.no-canvas .desktop-bg {
     position: relative !important;
     display: flex !important;
     flex-direction: column;
-    width: calc(100vw - 32px) !important;
+    width: 92vw !important;
     max-width: 100%;
     max-height: none !important;
     left: auto !important;
