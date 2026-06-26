@@ -36,6 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { once: true });
   }
 
+  // ── contact form — Netlify AJAX submit ────────────────────────────────
+  const contactForm = document.querySelector('.contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new URLSearchParams(new FormData(contactForm));
+      try {
+        await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: data.toString() });
+        contactForm.innerHTML = '<p class="contact-success">Message received. We\'ll be in touch.</p>';
+      } catch {
+        contactForm.innerHTML = '<p class="contact-success">Something went wrong. Email us directly at audiowarfarestudio@gmail.com</p>';
+      }
+    });
+  }
+
   // ── services → contact button ─────────────────────────────────────────
   const servicesCta = document.getElementById('services-contact-btn');
   if (servicesCta) {
