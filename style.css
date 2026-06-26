@@ -226,6 +226,11 @@ body.no-canvas .desktop-bg {
   line-height: 1;
 }
 
+.window-title-icon {
+  color: var(--green-dim);
+  margin-right: 2px;
+}
+
 .window-close {
   font-size: 13px;
   color: var(--green-dim);
