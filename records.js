@@ -148,6 +148,15 @@
 
     body.appendChild(gridEl);
     body.appendChild(playerEl);
+
+    // Stop playback when the Records window is closed
+    const winEl = document.getElementById('window-records');
+    const observer = new MutationObserver(() => {
+      if (!winEl.classList.contains('is-open') && !winEl.classList.contains('is-closing')) {
+        deselect(gridEl, playerEl);
+      }
+    });
+    observer.observe(winEl, { attributes: true, attributeFilter: ['class'] });
   }
 
   // Run after DOM is ready
