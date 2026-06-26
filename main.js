@@ -36,6 +36,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { once: true });
   }
 
+  // ── mobile: skip boot, open all windows, show desktop immediately ────
+  const isMobile = window.innerWidth < 768;
+  if (isMobile) {
+    bootEl.classList.add('is-hidden');
+    desktop.style.opacity = '1';
+    ['records', 'about', 'services', 'contact'].forEach(id => {
+      if (window.AudioWarfareWindows) AudioWarfareWindows.openWindow(id);
+    });
+  }
+
   // ── contact form — Netlify AJAX submit ────────────────────────────────
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
@@ -61,6 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ── boot decision ──────────────────────────────────────────────────────
+  if (isMobile) return; // mobile layout handled above
+
   if (window.AudioWarfareBoot && !window.AudioWarfareBoot.shouldSkip()) {
     AudioWarfareBoot.run({
       bootEl,

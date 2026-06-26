@@ -764,7 +764,98 @@ body.no-canvas .desktop-bg {
   .desktop { opacity: 1; }
 }
 
-/* --- MOBILE (module 7) ------------------------------------ */
-@media (max-width: 767px) {
-  body { overflow: auto; }
+/* --- TABLET (768px–1024px) -------------------------------- */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .window { max-width: 90vw; }
 }
+
+/* --- MOBILE (< 768px) ------------------------------------- */
+@media (max-width: 767px) {
+
+  /* Scrollable page, no overflow clipping */
+  html, body { overflow: auto; height: auto; }
+
+  /* Desktop becomes a normal flow container */
+  .desktop {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 16px 48px;
+    opacity: 1 !important;
+    overflow: visible;
+    min-height: 100vh;
+  }
+
+  /* Hide dock, clock, canvas */
+  .taskbar          { display: none; }
+  .desktop-clock-wrap { display: none; }
+  canvas.desktop-canvas { display: none; }
+
+  /* Logo centered at top */
+  .desktop-logo {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100px;
+    margin: 0 auto 28px;
+    display: block;
+    opacity: 0.92;
+  }
+
+  /* Background pinned behind everything */
+  .desktop-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+  }
+
+  /* Windows: always visible, full-width, stacked, normal flow */
+  .window {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column;
+    width: calc(100vw - 32px) !important;
+    max-width: 100%;
+    max-height: none !important;
+    left: auto !important;
+    top: auto !important;
+    margin: 0 0 20px 0;
+    animation: none !important;
+    z-index: 1 !important;
+  }
+
+  /* Hide close button — nowhere to close to */
+  .window-close { display: none; }
+
+  /* Records: 2-col grid, shorter player */
+  .records-grid {
+    grid-template-columns: repeat(2, 1fr);
+    overflow-y: visible;
+    flex: none;
+  }
+
+  .records-window-body { overflow: visible; }
+
+  .records-player {
+    height: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .player-content { width: 100%; }
+
+  .player-embed { height: 80px; }
+
+  .player-vinyl { display: none; }
+
+  /* About: reduce hero height */
+  .about-hero iframe { height: 160px; }
+
+  /* Contact: full width inputs */
+  .contact-field input,
+  .contact-field textarea { font-size: 16px; } /* prevent iOS zoom */
+}
+
