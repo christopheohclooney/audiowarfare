@@ -530,14 +530,11 @@ button {
   overflow-y: auto;
 }
 
-.about-hero img {
+.about-hero iframe {
   display: block;
   width: 100%;
-  height: 180px;
-  object-fit: cover;
-  object-position: center top;
-  filter: grayscale(100%) contrast(150%);
-  image-rendering: pixelated;
+  height: 200px;
+  border: none;
 }
 
 .about-copy {
