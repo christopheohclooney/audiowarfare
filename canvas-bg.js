@@ -4,15 +4,11 @@
 
   const DOT_SPACING  = 24;
   const DOT_RADIUS   = 1.5;
-  const DOT_RADIUS_MAX = 2.8;
+  const DOT_RADIUS_MAX = 4.0;
   const DOT_OPACITY  = 0.10;
-  const DOT_OPACITY_MAX = 0.55;
+  const DOT_OPACITY_MAX = 0.85;
   const CURSOR_RADIUS = 120;
-  const LERP_SPEED   = 0.12;
-  const LOGO_PATH    = 'assets/AW Logo.svg';
-  const LOGO_OPACITY_MIN = 0.18;
-  const LOGO_OPACITY_MAX = 0.24;
-  const LOGO_PULSE_MS = 4000;
+  const LERP_SPEED   = 0.16;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isMobile      = window.innerWidth < 768;
@@ -33,34 +29,12 @@
 
   let dots   = [];
   let cursor = { x: -9999, y: -9999 };
-  let logo   = null;
-  let logoW  = 0;
-  let logoH  = 0;
-
-  // ── logo load ────────────────────────────────────────────────────────────
-
-  const img = new Image();
-  img.onload = () => {
-    logo  = img;
-    const maxW = canvas.width * 0.20;
-    const scale = maxW / img.naturalWidth;
-    logoW = img.naturalWidth  * scale;
-    logoH = img.naturalHeight * scale;
-  };
-  img.src = LOGO_PATH;
 
   // ── dot grid ─────────────────────────────────────────────────────────────
 
   function buildGrid() {
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
-
-    if (logo) {
-      const maxW = canvas.width * 0.20;
-      const scale = maxW / logo.naturalWidth;
-      logoW = logo.naturalWidth  * scale;
-      logoH = logo.naturalHeight * scale;
-    }
 
     dots = [];
     const cols = Math.ceil(canvas.width  / DOT_SPACING);
@@ -104,22 +78,6 @@
       ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${color},${opacity.toFixed(3)})`;
       ctx.fill();
-    }
-
-    // Logo watermark
-    if (logo) {
-      const cx = canvas.width  / 2;
-      const cy = canvas.height / 2;
-
-      let alpha = (LOGO_OPACITY_MIN + LOGO_OPACITY_MAX) / 2;
-      if (!reducedMotion) {
-        const t = (ts % LOGO_PULSE_MS) / LOGO_PULSE_MS;
-        alpha = LOGO_OPACITY_MIN + (LOGO_OPACITY_MAX - LOGO_OPACITY_MIN) * (0.5 + 0.5 * Math.sin(t * Math.PI * 2));
-      }
-
-      ctx.globalAlpha = alpha;
-      ctx.drawImage(logo, cx - logoW / 2, cy - logoH / 2, logoW, logoH);
-      ctx.globalAlpha = 1;
     }
 
     if (!reducedMotion) {
