@@ -833,6 +833,7 @@ body.no-canvas .desktop-bg {
     grid-template-columns: repeat(2, 1fr);
     overflow-y: visible;
     flex: none;
+    padding: 16px;
   }
 
   .records-window-body { overflow: visible; }
