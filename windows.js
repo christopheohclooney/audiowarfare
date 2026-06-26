@@ -112,10 +112,16 @@
     }
 
     if (btn) btn.classList.remove('is-active');
+
+    // Kill any embedded audio/video instantly on close, restore src after hidden
+    const iframes = [...winEl.querySelectorAll('iframe')].map(f => ({ el: f, src: f.src }));
+    iframes.forEach(({ el }) => { el.src = ''; });
+
     winEl.classList.add('is-closing');
 
     winEl.addEventListener('animationend', () => {
       winEl.classList.remove('is-open', 'is-closing');
+      iframes.forEach(({ el, src }) => { el.src = src; });
     }, { once: true });
   }
 
