@@ -26,25 +26,22 @@ document.addEventListener('DOMContentLoaded', () => {
       bootEl.classList.add('is-hidden');
       desktop.classList.add('desktop-fade-in');
 
-      // Auto-open Records 2 seconds after the desktop appears
+      // Auto-open windows after desktop appears
       setTimeout(() => {
         if (window.AudioWarfareWindows) {
-          AudioWarfareWindows.openWindow('records');
+          if (isMobile) {
+            ['records', 'about', 'services', 'contact'].forEach(id => AudioWarfareWindows.openWindow(id));
+          } else {
+            AudioWarfareWindows.openWindow('records');
+          }
         }
       }, 2000);
 
     }, { once: true });
   }
 
-  // ── mobile: skip boot, open all windows, show desktop immediately ────
+  // ── mobile: open all windows after desktop appears ───────────────────
   const isMobile = window.innerWidth < 768;
-  if (isMobile) {
-    bootEl.classList.add('is-hidden');
-    desktop.style.opacity = '1';
-    ['records', 'about', 'services', 'contact'].forEach(id => {
-      if (window.AudioWarfareWindows) AudioWarfareWindows.openWindow(id);
-    });
-  }
 
   // ── contact form — Netlify AJAX submit ────────────────────────────────
   const contactForm = document.querySelector('.contact-form');
@@ -71,8 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ── boot decision ──────────────────────────────────────────────────────
-  if (isMobile) return; // mobile layout handled above
-
   if (window.AudioWarfareBoot && !window.AudioWarfareBoot.shouldSkip()) {
     AudioWarfareBoot.run({
       bootEl,
@@ -86,7 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setTimeout(() => {
       if (window.AudioWarfareWindows) {
-        AudioWarfareWindows.openWindow('records');
+        if (isMobile) {
+          ['records', 'about', 'services', 'contact'].forEach(id => AudioWarfareWindows.openWindow(id));
+        } else {
+          AudioWarfareWindows.openWindow('records');
+        }
       }
     }, 2000);
   }
