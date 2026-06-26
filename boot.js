@@ -15,6 +15,29 @@
   const SKIP_DELAY  = 1000; // ms before skip button appears
   const CURSOR      = '█';
 
+  const NOISE_CHARS = ['█','▓','▒','░','▪','·','+','×','⌗','⌀','#','@'];
+  const LOCK_CHAR   = '☢';
+  const NOISE_MS    = 40;   // ms per frame during resolve
+  const RESOLVE_MS  = 1600; // total time before locking on ☢
+
+  function runGlyphResolver(el) {
+    let elapsed = 0;
+    const interval = setInterval(() => {
+      elapsed += NOISE_MS;
+      if (elapsed >= RESOLVE_MS) {
+        clearInterval(interval);
+        el.textContent = LOCK_CHAR;
+      } else {
+        // bias toward ☢ in the final quarter
+        const bias = elapsed / RESOLVE_MS;
+        el.textContent = Math.random() < bias * 0.6
+          ? LOCK_CHAR
+          : NOISE_CHARS[Math.floor(Math.random() * NOISE_CHARS.length)];
+      }
+    }, NOISE_MS);
+    return interval;
+  }
+
   // ── helpers ──────────────────────────────────────────────────────────────
 
   function delay(ms) {
@@ -47,6 +70,12 @@
     // Calls onComplete() when the desktop should be shown.
     async run({ bootEl, skipBtn, onComplete }) {
       const linesContainer = bootEl.querySelector('#boot-lines');
+
+      // Glyph resolver — ☢ assembles from noise behind the text
+      const glyphEl = document.createElement('div');
+      glyphEl.className = 'boot-glyph';
+      bootEl.appendChild(glyphEl);
+      const glyphInterval = runGlyphResolver(glyphEl);
 
       // Show skip button after SKIP_DELAY
       const skipTimer = setTimeout(() => {
@@ -97,6 +126,7 @@
         finish.called = true;
 
         clearTimeout(skipTimer);
+        clearInterval(glyphInterval);
         skipBtn.removeEventListener('click', skipHandler);
         document.removeEventListener('keydown', keyHandler);
 
