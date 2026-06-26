@@ -331,6 +331,92 @@ button {
   white-space: nowrap;
 }
 
+/* --- SERVICES WINDOW -------------------------------------- */
+#window-services { min-height: 480px; }
+
+.services-window-body {
+  padding: 0 !important;
+  overflow-y: auto;
+}
+
+.service-block {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(58, 122, 86, 0.3);
+}
+
+.service-label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green-dim);
+  margin-bottom: 6px;
+}
+
+.service-price {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--green);
+  line-height: 1.1;
+}
+
+.service-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--white);
+  opacity: 0.75;
+  line-height: 1.65;
+  margin-top: 10px;
+}
+
+.services-separator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px;
+  margin: 4px 0;
+}
+
+.services-separator::before,
+.services-separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--green-dim);
+  opacity: 0.5;
+}
+
+.services-separator-label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green-dim);
+  white-space: nowrap;
+}
+
+.services-cta-wrap {
+  padding: 20px 24px;
+}
+
+.services-cta {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--green);
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.services-cta:hover { background: #8ef5b8; }
+
 /* --- ABOUT WINDOW ----------------------------------------- */
 #window-about { min-height: 520px; }
 

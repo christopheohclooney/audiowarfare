@@ -36,6 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { once: true });
   }
 
+  // ── services → contact button ─────────────────────────────────────────
+  const servicesCta = document.getElementById('services-contact-btn');
+  if (servicesCta) {
+    servicesCta.addEventListener('click', () => {
+      AudioWarfareWindows.closeWindow('services');
+      AudioWarfareWindows.openWindow('contact');
+    });
+  }
+
   // ── boot decision ──────────────────────────────────────────────────────
   if (window.AudioWarfareBoot && !window.AudioWarfareBoot.shouldSkip()) {
     AudioWarfareBoot.run({
