@@ -136,6 +136,23 @@ button {
   mix-blend-mode: overlay;
 }
 
+/* --- CANVAS BACKGROUND ------------------------------------ */
+canvas.desktop-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+
+/* Mobile fallback — canvas disabled, CSS dot pattern instead */
+body.no-canvas .desktop-bg {
+  background-image:
+    radial-gradient(circle, rgba(110,232,158,0.12) 1px, transparent 1px),
+    url('assets/Timeline 1_01_00_14_23.jpg');
+  background-size: 24px 24px, cover;
+}
+
 /* --- DESKTOP LOGO ----------------------------------------- */
 .desktop-logo {
   position: absolute;
