@@ -72,12 +72,10 @@
       }
 
       const opacity = DOT_OPACITY + (DOT_OPACITY_MAX - DOT_OPACITY) * d.glow;
-      const radius  = DOT_RADIUS  + (DOT_RADIUS_MAX  - DOT_RADIUS)  * d.glow;
+      const size    = (DOT_RADIUS  + (DOT_RADIUS_MAX  - DOT_RADIUS)  * d.glow) * 2;
 
-      ctx.beginPath();
-      ctx.arc(d.x, d.y, radius, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${color},${opacity.toFixed(3)})`;
-      ctx.fill();
+      ctx.fillRect(Math.round(d.x - size / 2), Math.round(d.y - size / 2), Math.round(size), Math.round(size));
     }
 
     if (!reducedMotion) {
