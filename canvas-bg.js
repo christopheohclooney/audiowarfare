@@ -4,10 +4,10 @@
 
   const DOT_SPACING  = 24;
   const DOT_RADIUS   = 1.5;
-  const DOT_RADIUS_MAX = 4.0;
-  const DOT_OPACITY  = 0.10;
-  const DOT_OPACITY_MAX = 0.85;
-  const CURSOR_RADIUS = 120;
+  const DOT_RADIUS_MAX = 2.4;
+  const DOT_OPACITY  = 0.08;
+  const DOT_OPACITY_MAX = 0.45;
+  const CURSOR_RADIUS = 80;
   const LERP_SPEED   = 0.16;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
