@@ -4,11 +4,11 @@
 
   const DOT_SPACING  = 24;
   const DOT_RADIUS   = 1.5;
-  const DOT_RADIUS_MAX = 2.4;
+  const DOT_RADIUS_MAX = 2;
   const DOT_OPACITY  = 0.08;
-  const DOT_OPACITY_MAX = 0.45;
-  const CURSOR_RADIUS = 80;
-  const LERP_SPEED   = 0.16;
+  const DOT_OPACITY_MAX = 0.4;
+  const CURSOR_RADIUS = 56;
+  const LERP_SPEED   = 0.22;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isMobile      = window.innerWidth < 768;
@@ -65,7 +65,7 @@
       const dy   = d.y - cursor.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      const target = reducedMotion ? 0 : Math.max(0, 1 - dist / CURSOR_RADIUS);
+      const target = reducedMotion ? 0 : Math.pow(Math.max(0, 1 - dist / CURSOR_RADIUS), 2.2);
 
       if (!reducedMotion) {
         d.glow += (target - d.glow) * LERP_SPEED;
