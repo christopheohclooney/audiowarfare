@@ -243,6 +243,13 @@ body.no-canvas .desktop-bg {
 .window-title-icon {
   color: var(--green-dim);
   margin-right: 2px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.window-title-icon svg {
+  width: 14px;
+  height: 14px;
 }
 
 .window-close {
@@ -327,6 +334,15 @@ body.no-canvas .desktop-bg {
   font-family: var(--font-display);
   font-size: 22px;
   line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.taskbar-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .taskbar-label {
