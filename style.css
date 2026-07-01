@@ -190,8 +190,9 @@ body.no-canvas .desktop-bg {
   box-shadow:
     0 0 0 1px var(--black),
     0 8px 32px rgba(0, 0, 0, 0.7),
-    0 0 28px rgba(110, 232, 158, 0.07),
-    inset 0 1px 0 rgba(110, 232, 158, 0.08);
+    0 0 40px rgba(110, 232, 158, 0.14),
+    0 0 80px rgba(110, 232, 158, 0.05),
+    inset 0 1px 0 rgba(110, 232, 158, 0.12);
   user-select: none;
 }
 
@@ -231,12 +232,12 @@ body.no-canvas .desktop-bg {
   background:
     repeating-linear-gradient(
       0deg,
-      rgba(110, 232, 158, 0.025) 0px,
-      rgba(110, 232, 158, 0.025) 1px,
+      rgba(110, 232, 158, 0.06) 0px,
+      rgba(110, 232, 158, 0.06) 1px,
       transparent 1px,
       transparent 3px
     ),
-    rgba(110, 232, 158, 0.07);
+    rgba(110, 232, 158, 0.10);
   border-bottom: 1px solid var(--green-dim);
   cursor: grab;
   flex-shrink: 0;
