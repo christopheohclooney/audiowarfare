@@ -7,7 +7,7 @@
   const DOT_RADIUS_MAX = 2.2;
   const DOT_OPACITY  = 0.08;
   const DOT_OPACITY_MAX = 0.55;
-  const CURSOR_RADIUS = 64;
+  const CURSOR_RADIUS = 90;
   const LERP_SPEED   = 0.22;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
