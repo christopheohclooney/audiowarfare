@@ -187,7 +187,11 @@ body.no-canvas .desktop-bg {
   border: 1px solid var(--green);
   display: none;
   flex-direction: column;
-  box-shadow: 0 0 0 1px var(--black), 0 8px 32px rgba(0,0,0,0.7);
+  box-shadow:
+    0 0 0 1px var(--black),
+    0 8px 32px rgba(0, 0, 0, 0.7),
+    0 0 28px rgba(110, 232, 158, 0.07),
+    inset 0 1px 0 rgba(110, 232, 158, 0.08);
   user-select: none;
 }
 
@@ -199,8 +203,8 @@ body.no-canvas .desktop-bg {
 .window.is-open { display: flex; }
 
 @keyframes window-open {
-  from { opacity: 0; transform: scale(0.95); }
-  to   { opacity: 1; transform: scale(1); }
+  from { opacity: 0; transform: scale(0.96) translateY(6px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
 }
 
 .window.is-open {
@@ -224,7 +228,15 @@ body.no-canvas .desktop-bg {
   justify-content: space-between;
   height: var(--titlebar-h);
   padding: 0 10px 0 14px;
-  background: rgba(110, 232, 158, 0.06);
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(110, 232, 158, 0.025) 0px,
+      rgba(110, 232, 158, 0.025) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    rgba(110, 232, 158, 0.07);
   border-bottom: 1px solid var(--green-dim);
   cursor: grab;
   flex-shrink: 0;
@@ -241,10 +253,11 @@ body.no-canvas .desktop-bg {
 }
 
 .window-title-icon {
-  color: var(--green-dim);
-  margin-right: 2px;
+  color: var(--green);
+  margin-right: 6px;
   display: inline-flex;
   align-items: center;
+  opacity: 0.7;
 }
 
 .window-title-icon svg {
@@ -255,19 +268,24 @@ body.no-canvas .desktop-bg {
 .window-close {
   font-size: 13px;
   color: var(--green-dim);
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid transparent;
-  transition: color 0.1s, border-color 0.1s;
+  transition: color 0.1s, border-color 0.1s, background 0.1s;
   flex-shrink: 0;
 }
 
 .window-close:hover {
   color: var(--green);
   border-color: var(--green-dim);
+  background: rgba(110, 232, 158, 0.08);
+}
+
+.window-close:active {
+  background: rgba(110, 232, 158, 0.15);
 }
 
 /* --- WINDOW BODY ------------------------------------------ */
@@ -299,15 +317,17 @@ body.no-canvas .desktop-bg {
   gap: 2px;
   padding: 8px 12px;
 
-  background: rgba(10, 10, 10, 0.90);
+  background: rgba(10, 10, 10, 0.92);
   border: 1px solid var(--green-dim);
+  border-top-color: rgba(110, 232, 158, 0.22);
   border-radius: 8px;
   backdrop-filter: blur(14px);
 
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.7),
     0 2px  8px rgba(0, 0, 0, 0.5),
-    0 0   28px rgba(110, 232, 158, 0.07);
+    0 0   36px rgba(110, 232, 158, 0.09),
+    inset 0 1px 0 rgba(110, 232, 158, 0.06);
 }
 
 /* --- DOCK BUTTONS ----------------------------------------- */
@@ -328,7 +348,10 @@ body.no-canvas .desktop-bg {
   background: rgba(110, 232, 158, 0.06);
 }
 
-.taskbar-btn.is-active { color: var(--green); }
+.taskbar-btn.is-active {
+  color: var(--green);
+  background: rgba(110, 232, 158, 0.07);
+}
 
 .taskbar-icon {
   font-family: var(--font-display);
@@ -420,17 +443,19 @@ body.no-canvas .desktop-bg {
   font-family: var(--font-body);
   font-size: 14px;
   color: var(--white);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--green-dim);
   padding: 8px 10px;
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
   width: 100%;
 }
 
 .contact-field input:focus,
 .contact-field textarea:focus {
   border-color: var(--green);
+  background: rgba(110, 232, 158, 0.04);
+  box-shadow: 0 0 0 2px rgba(110, 232, 158, 0.08);
 }
 
 .contact-field textarea {
@@ -454,7 +479,8 @@ body.no-canvas .desktop-bg {
   transition: background 0.15s;
 }
 
-.contact-submit:hover { background: #8ef5b8; }
+.contact-submit:hover  { background: #8ef5b8; }
+.contact-submit:active { transform: scale(0.98); }
 
 .contact-divider {
   height: 1px;
@@ -478,7 +504,12 @@ body.no-canvas .desktop-bg {
   transition: color 0.15s;
 }
 
-.contact-link:hover { color: var(--green); }
+.contact-link:hover {
+  color: var(--green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--green-dim);
+}
 
 .contact-success {
   font-family: var(--font-display);
@@ -504,16 +535,18 @@ body.no-canvas .desktop-bg {
 .service-label {
   display: block;
   font-family: var(--font-display);
-  font-size: 13px;
-  letter-spacing: 0.1em;
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--green-dim);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  padding-left: 10px;
+  border-left: 2px solid var(--green-dim);
 }
 
 .service-price {
   font-family: var(--font-display);
-  font-size: 24px;
+  font-size: 28px;
   color: var(--green);
   line-height: 1.1;
 }
@@ -572,7 +605,8 @@ body.no-canvas .desktop-bg {
   transition: background 0.15s;
 }
 
-.services-cta:hover { background: #8ef5b8; }
+.services-cta:hover  { background: #8ef5b8; }
+.services-cta:active { transform: scale(0.98); }
 
 /* --- ABOUT WINDOW ----------------------------------------- */
 #window-about { min-height: 520px; }
@@ -643,17 +677,20 @@ body.no-canvas .desktop-bg {
   border-radius: 4px;
   text-align: center;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.15s;
 }
 
 .record-card:hover {
-  background: rgba(110, 232, 158, 0.05);
+  background: rgba(110, 232, 158, 0.06);
   border-color: var(--green-dim);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .record-card.is-active {
   background: rgba(110, 232, 158, 0.08);
   border-color: var(--green);
+  box-shadow: 0 0 12px rgba(110, 232, 158, 0.12);
 }
 
 .record-card-vinyl {
@@ -662,11 +699,12 @@ body.no-canvas .desktop-bg {
 }
 
 .record-card-img {
-  width: 72px;
-  height: 72px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
   border-radius: 2px;
   display: block;
+  border: 1px solid rgba(110, 232, 158, 0.1);
 }
 
 .player-vinyl-img {
@@ -718,7 +756,7 @@ body.no-canvas .desktop-bg {
 }
 
 .records-player:not(.is-active) {
-  opacity: 0.35;
+  opacity: 0.5;
 }
 
 .player-content {
