@@ -134,7 +134,20 @@ button {
 .desktop-bg {
   position: absolute;
   inset: 0;
-  background-color: #050705;
+  background-color: #0a0a0a;
+}
+
+.unicorn-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.unicorn-wrap > div,
+.unicorn-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 
 .desktop-grain {
@@ -155,16 +168,12 @@ canvas.desktop-canvas {
   display: block;
 }
 
-/* Mobile / no-WebGL fallback — static dark bg + faint CSS scanlines */
+/* Mobile fallback — canvas disabled, CSS dot pattern instead */
 body.no-canvas .desktop-bg {
-  background-color: #050705;
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(110, 232, 158, 0.05) 0px,
-    rgba(110, 232, 158, 0.05) 1px,
-    transparent 1px,
-    transparent 3px
-  );
+  background-image:
+    radial-gradient(circle, rgba(110,232,158,0.12) 1px, transparent 1px),
+    url('assets/Timeline 1_01_00_14_23.jpg');
+  background-size: 24px 24px, cover;
 }
 
 /* --- DESKTOP LOGO ----------------------------------------- */
