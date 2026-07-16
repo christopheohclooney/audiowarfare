@@ -40,7 +40,7 @@
     let rms = 0;
     for (let i = 0; i < SIZE; i++) rms += buf[i] * buf[i];
     rms = Math.sqrt(rms / SIZE);
-    if (rms < 0.01) return -1;              // too quiet — no signal
+    if (rms < 0.005) return -1;             // too quiet — no signal
 
     let r1 = 0, r2 = SIZE - 1;
     const thres = 0.2;
@@ -66,7 +66,7 @@
     }
 
     let T0 = maxpos;
-    if (T0 <= 0) return -1;
+    if (T0 <= 0 || T0 >= n - 1) return -1;
 
     // parabolic interpolation for sub-sample accuracy
     const x1 = c[T0 - 1], x2 = c[T0], x3 = c[T0 + 1];
@@ -74,7 +74,9 @@
     const b = (x3 - x1) / 2;
     if (a) T0 = T0 - b / (2 * a);
 
-    return sampleRate / T0;
+    const freq = sampleRate / T0;
+    if (!isFinite(freq) || freq < 60 || freq > 400) return -1;  // outside guitar range
+    return freq;
   }
 
   // ── note mapping ──────────────────────────────────────────────────────
