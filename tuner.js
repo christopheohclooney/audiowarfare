@@ -127,9 +127,20 @@
 
   // ── render loop ───────────────────────────────────────────────────────
 
+  function renderInputLevel() {
+    let rms = 0;
+    for (let i = 0; i < buf.length; i++) rms += buf[i] * buf[i];
+    rms = Math.sqrt(rms / buf.length);
+    // map rms (~0..0.3) to 0..12 filled blocks, with a gentle curve
+    const slots = 12;
+    const filled = Math.max(0, Math.min(slots, Math.round(Math.sqrt(rms) * slots * 1.8)));
+    if (el.inputBar) el.inputBar.textContent = '█'.repeat(filled) + '░'.repeat(slots - filled);
+  }
+
   function loop() {
     if (!active) return;
     analyser.getFloatTimeDomainData(buf);
+    renderInputLevel();
     const freq = autoCorrelate(buf, audioCtx.sampleRate);
 
     if (freq === -1) {
@@ -164,12 +175,19 @@
   async function activate() {
     if (active) return;
     try {
-      stream = await navigator.mediaDevices.getUserMedia({ audio: {
-        echoCancellation: false, noiseSuppression: false, autoGainControl: false
-      } });
+      // Prefer tuning-friendly constraints, but fall back to plain audio:true
+      // if the device rejects them (Firefox/Zen can throw OverconstrainedError).
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ audio: {
+          echoCancellation: false, noiseSuppression: false, autoGainControl: false
+        } });
+      } catch (constraintErr) {
+        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      }
     } catch (err) {
       el.idle.querySelector('.tuner-permnote').textContent =
-        'Mic access denied. Check your browser permissions and try again.';
+        'Mic access blocked: ' + (err && err.name ? err.name : 'error') +
+        '. Check the browser permission and input device, then retry.';
       return;
     }
 
@@ -221,6 +239,7 @@
       bar:     document.getElementById('tuner-bar'),
       cents:   document.getElementById('tuner-cents'),
       flavour: document.getElementById('tuner-flavour'),
+      inputBar: document.getElementById('tuner-input-bar'),
     };
 
     const toggle = document.getElementById('tuner-toggle');

@@ -534,6 +534,22 @@ body.no-canvas .desktop-bg {
   text-align: center;
 }
 
+.tuner-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--green-dim);
+}
+
+.tuner-input-bar {
+  color: var(--green);
+  letter-spacing: 1px;
+  white-space: pre;
+}
+
 /* --- CONTACT WINDOW --------------------------------------- */
 #window-contact { min-height: 500px; }
 
