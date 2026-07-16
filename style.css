@@ -416,6 +416,124 @@ body.no-canvas .desktop-bg {
   white-space: nowrap;
 }
 
+/* --- TUNER TOGGLE (bottom-left, mirrors the clock) -------- */
+.desktop-tuner-wrap {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  z-index: 500;
+}
+
+.tuner-toggle {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--green-dim);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.tuner-toggle:hover { color: var(--green); }
+
+/* --- TUNER WINDOW ---------------------------------------- */
+#window-tuner { width: 360px; min-height: 380px; }
+
+.tuner-window-body {
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tuner-idle,
+.tuner-live {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.tuner-idle[hidden],
+.tuner-live[hidden] { display: none; }
+
+.tuner-intro {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--white);
+  opacity: 0.8;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.tuner-activate,
+.tuner-stop {
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 12px 22px;
+  color: var(--green);
+  border: 1px solid var(--green-dim);
+  background: rgba(110, 232, 158, 0.05);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.tuner-activate:hover,
+.tuner-stop:hover {
+  color: var(--green);
+  border-color: var(--green);
+  background: rgba(110, 232, 158, 0.12);
+}
+
+.tuner-activate:active,
+.tuner-stop:active { background: rgba(110, 232, 158, 0.2); }
+
+.tuner-permnote {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--green-dim);
+  text-align: center;
+}
+
+.tuner-note-display {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 12vw, 84px);
+  color: var(--green);
+  line-height: 1;
+  transition: text-shadow 0.15s, color 0.15s;
+}
+
+.tuner-note-display.is-intune {
+  text-shadow: 0 0 22px rgba(110, 232, 158, 0.6);
+}
+
+.tuner-bar {
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: var(--green-dim);
+  white-space: pre;
+  transition: color 0.15s;
+}
+
+.tuner-bar.is-intune { color: var(--green); }
+
+.tuner-cents {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--white);
+  opacity: 0.8;
+}
+
+.tuner-flavour {
+  font-family: var(--font-display);
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  color: var(--green);
+  min-height: 1.4em;
+  text-align: center;
+}
+
 /* --- CONTACT WINDOW --------------------------------------- */
 #window-contact { min-height: 500px; }
 
@@ -870,10 +988,14 @@ body.no-canvas .desktop-bg {
     min-height: 100vh;
   }
 
-  /* Hide dock, clock, canvas */
+  /* Hide dock, clock, tuner toggle, canvas */
   .taskbar          { display: none; }
   .desktop-clock-wrap { display: none; }
+  .desktop-tuner-wrap { display: none; }
   canvas.desktop-canvas { display: none; }
+
+  /* Tuner window is toggle-only — keep it out of the mobile stack */
+  #window-tuner { display: none !important; }
 
   /* Logo centered at top */
   .desktop-logo {

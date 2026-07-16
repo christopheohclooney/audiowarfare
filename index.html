@@ -145,6 +145,30 @@
       </div>
     </div>
 
+    <div id="window-tuner" class="window" role="dialog" aria-label="Tuner" data-window="tuner">
+      <div class="window-titlebar">
+        <span class="window-title"><span class="window-title-icon tuner-note" aria-hidden="true">♩</span> TUNER</span>
+        <button class="window-close" data-close="tuner" aria-label="Close Tuner">✕</button>
+      </div>
+      <div class="window-body tuner-window-body">
+
+        <div class="tuner-idle" id="tuner-idle">
+          <p class="tuner-intro">Standard tuning — E A D G B E. Plug in, tune up.</p>
+          <button class="tuner-activate" id="tuner-activate">&gt; ACTIVATE MIC</button>
+          <p class="tuner-permnote">Your browser will ask for microphone access.</p>
+        </div>
+
+        <div class="tuner-live" id="tuner-live" hidden>
+          <div class="tuner-note-display" id="tuner-note">—</div>
+          <div class="tuner-bar" id="tuner-bar">[ ----------|---------- ]</div>
+          <div class="tuner-cents" id="tuner-cents">— cents</div>
+          <div class="tuner-flavour" id="tuner-flavour">&gt; WAITING FOR INPUT...</div>
+          <button class="tuner-stop" id="tuner-stop">&#9632; STOP</button>
+        </div>
+
+      </div>
+    </div>
+
     <!-- DOCK -->
     <nav class="taskbar" role="navigation" aria-label="Dock">
 
@@ -174,6 +198,11 @@
 
     </nav>
 
+    <!-- TUNER TOGGLE — bottom-left, mirrors the clock -->
+    <div class="desktop-tuner-wrap">
+      <button id="tuner-toggle" class="tuner-toggle" aria-label="Toggle Tuner">&#9833; TUNER</button>
+    </div>
+
     <!-- CLOCK — sits outside the dock, bottom-right -->
     <div class="desktop-clock-wrap">
       <span id="taskbar-clock" class="taskbar-clock" aria-live="polite"></span>
@@ -186,6 +215,7 @@
   <script type="text/javascript">!function(){var u=window.UnicornStudio;if(u&&u.init){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){u.init()})}else{u.init()}}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.2.6/dist/unicornStudio.umd.js",i.onload=function(){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})}else{UnicornStudio.init()}},(document.head||document.body).appendChild(i)}}();</script>
   <script src="boot.js"></script>
   <script src="windows.js"></script>
+  <script src="tuner.js"></script>
   <script src="records.js"></script>
   <script src="main.js"></script>
 </body>
