@@ -13,10 +13,11 @@
 <body>
 
   <!-- Netlify form detection hook (hidden) -->
-  <form name="contact" data-netlify="true" hidden>
+  <form name="contact" netlify-honeypot="bot-field" data-netlify="true" hidden>
     <input type="text" name="name">
     <input type="email" name="email">
     <textarea name="message"></textarea>
+    <input name="bot-field">
   </form>
 
   <!-- BOOT SCREEN -->
@@ -114,8 +115,9 @@
 
         <p class="contact-headline">Your band is feeling low-mid? That's our frequency range. Let's talk.</p>
 
-        <form class="contact-form" name="contact" data-netlify="true">
+        <form class="contact-form" name="contact" netlify-honeypot="bot-field" data-netlify="true">
           <input type="hidden" name="form-name" value="contact">
+          <p class="hidden-field" hidden><label>Don't fill this out: <input name="bot-field"></label></p>
 
           <div class="contact-field">
             <label for="contact-name">Name</label>
