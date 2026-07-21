@@ -1010,9 +1010,6 @@ body.no-canvas .desktop-bg {
   .desktop-tuner-wrap { display: none; }
   canvas.desktop-canvas { display: none; }
 
-  /* Tuner window is toggle-only — keep it out of the mobile stack */
-  #window-tuner { display: none !important; }
-
   /* Logo centered at top */
   .desktop-logo {
     position: relative;

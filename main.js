@@ -53,14 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }, { threshold: 0.08 });
 
-    // First window fades in immediately, rest on scroll
-    document.querySelectorAll('.window').forEach((win, i) => {
-      if (i === 0) {
-        setTimeout(() => win.classList.add('in-view'), 2200);
-      } else {
-        observer.observe(win);
-      }
-    });
+    // Observe every window — the top one is already in view so it fades in
+    // immediately and reliably; the rest fade in as they're scrolled to.
+    document.querySelectorAll('.window').forEach(win => observer.observe(win));
   }
 
   // ── contact form — Netlify AJAX submit ────────────────────────────────
