@@ -120,10 +120,24 @@
 
     winEl.classList.add('is-closing');
 
-    winEl.addEventListener('animationend', () => {
+    const finish = () => {
       winEl.classList.remove('is-open', 'is-closing');
       iframes.forEach(({ el, src }) => { el.src = src; });
-    }, { once: true });
+    };
+
+    // prefers-reduced-motion (or any other reason the CSS animation never
+    // fires) means 'animationend' never dispatches — don't rely on it alone.
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) {
+      finish();
+    } else {
+      let done = false;
+      const onEnd = () => { if (!done) { done = true; finish(); } };
+      winEl.addEventListener('animationend', onEnd, { once: true });
+      // Safety net in case the animation is skipped for any other reason
+      // (e.g. tab backgrounded, style not applied yet).
+      setTimeout(() => { if (!done) { done = true; winEl.removeEventListener('animationend', onEnd); finish(); } }, 200);
+    }
   }
 
   // ── drag ────────────────────────────────────────────────────────────
