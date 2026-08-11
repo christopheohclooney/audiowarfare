@@ -141,6 +141,7 @@ button {
   position: absolute;
   inset: 0;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .unicorn-wrap > div,
@@ -148,6 +149,7 @@ button {
   width: 100% !important;
   height: 100% !important;
   display: block;
+  pointer-events: none !important;
 }
 
 .desktop-grain {
