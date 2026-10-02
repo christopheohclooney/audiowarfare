@@ -4,14 +4,6 @@
 
   const RECORDS = [
     {
-      id:      'splitknuckle-lies',
-      band:    'Splitknuckle',
-      release: 'Lies They Hide Behind',
-      tag:     'Full band recording',
-      spotify: 'https://open.spotify.com/embed/album/1BBROSjNjk45FtrWlJQfbZ?theme=0',
-      image:   'assets/Splitknuckle - LTHB.jpg',
-    },
-    {
       id:      'lifeofone-demo1',
       band:    'Life Of One',
       release: 'Demo 1',
@@ -28,12 +20,28 @@
       image:   'assets/Life Of One - Demo 2.jpg',
     },
     {
+      id:      'splitknuckle-lies',
+      band:    'Splitknuckle',
+      release: 'Lies They Hide Behind',
+      tag:     'Full band recording',
+      spotify: 'https://open.spotify.com/embed/album/1BBROSjNjk45FtrWlJQfbZ?theme=0',
+      image:   'assets/Splitknuckle - LTHB.jpg',
+    },
+    {
       id:      'bigsmoke-nltm',
       band:    'Big Smoke',
       release: 'Nothing Left To Mourn',
       tag:     'Full band recording',
       spotify: 'https://open.spotify.com/embed/album/4xmeSlfYT1fnI4ANANGQMx?theme=0',
       image:   'assets/Big Smoke - Nothing Left To Mourn.jpg',
+    },
+    {
+      id:      'mobhanded-split',
+      band:    'Mob Handed',
+      release: 'Split',
+      tag:     'Recorded & mixed',
+      spotify: 'https://open.spotify.com/embed/album/5iLSzhwbkOHSPTj20LA0or?theme=0',
+      image:   'assets/Mob Handed - Split.jpg',
     },
   ];
 
