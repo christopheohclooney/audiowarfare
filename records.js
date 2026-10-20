@@ -43,6 +43,14 @@
       spotify: 'https://open.spotify.com/embed/album/5iLSzhwbkOHSPTj20LA0or?theme=0',
       image:   'assets/Mob Handed - Split.jpg',
     },
+    {
+      id:      'outofspite-tss',
+      band:    'Out of Spite',
+      release: 'Three Swords Style',
+      tag:     'Mixed & mastered',
+      spotify: 'https://open.spotify.com/embed/album/5QBcau9EQ4Ezga4pPUfueS?theme=0',
+      image:   'assets/Out of Spite - Three Swords Style.jpg',
+    },
   ];
 
   // ── vinyl SVG ────────────────────────────────────────────────────────────
