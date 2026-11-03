@@ -769,6 +769,19 @@ body.no-canvas .desktop-bg {
   border: none;
 }
 
+/* ASCII CCTV loop — behaves like a GIF (autoplay, muted, looping) */
+.about-hero--cctv {
+  border-bottom: 1px solid var(--green-dim);
+  background: #050806;
+}
+
+.about-hero--cctv video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
 .about-copy {
   position: relative;
   padding: 24px;
