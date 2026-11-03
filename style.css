@@ -769,17 +769,25 @@ body.no-canvas .desktop-bg {
   border: none;
 }
 
-/* ASCII CCTV loop — behaves like a GIF (autoplay, muted, looping) */
+/* CCTV loop — behaves like a GIF (autoplay, muted, looping).
+   16:9 is locked on the wrapper (reliable in every browser), and the video
+   fills it with `contain` so it can never be zoomed or cropped. */
 .about-hero--cctv {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
   border-bottom: 1px solid var(--green-dim);
   background: #050806;
 }
 
 .about-hero--cctv video {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  height: 100%;
+  object-fit: contain;
 }
 
 .about-copy {
