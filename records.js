@@ -51,6 +51,14 @@
       spotify: 'https://open.spotify.com/embed/album/5QBcau9EQ4Ezga4pPUfueS?theme=0',
       image:   'assets/Out of Spite - Three Swords Style.jpg',
     },
+    {
+      id:      'breakrank-demo',
+      band:    'Break Rank',
+      release: 'Demo',
+      tag:     'Recorded, mixed & mastered',
+      spotify: 'https://open.spotify.com/embed/album/5zIdYUMuq2CGUl6kvtBZBV?theme=0',
+      image:   'assets/Break Rank - Demo.jpg',
+    },
   ];
 
   // ── vinyl SVG ────────────────────────────────────────────────────────────
