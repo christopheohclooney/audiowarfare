@@ -55,7 +55,7 @@
       id:      'breakrank-demo',
       band:    'Break Rank',
       release: 'Demo',
-      tag:     'Recorded, mixed & mastered',
+      tag:     'Rec, mix & master',
       spotify: 'https://open.spotify.com/embed/album/5zIdYUMuq2CGUl6kvtBZBV?theme=0',
       image:   'assets/Break Rank - Demo.jpg',
     },
