@@ -798,6 +798,7 @@ body.no-canvas .desktop-bg {
 /* Grid */
 .records-grid {
   flex: 1;
+  max-height: 470px; /* ~2 rows + a peek of the 3rd, then scroll */
   overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -1051,6 +1052,7 @@ body.no-canvas .desktop-bg {
   /* Records: 2-col grid, shorter player */
   .records-grid {
     grid-template-columns: repeat(2, 1fr);
+    max-height: none;
     overflow-y: visible;
     flex: none;
     padding: 16px;
