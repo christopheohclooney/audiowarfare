@@ -775,7 +775,8 @@ body.no-canvas .desktop-bg {
 .about-hero--cctv {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 0;
+  padding-top: 56.25%;   /* 9 / 16 — locks 16:9 in every browser */
   overflow: hidden;
   border-bottom: 1px solid var(--green-dim);
   background: #050806;
